@@ -5,14 +5,20 @@ def process_text(text):
     print(len(text), text.lower())
     list_of_files = fileData()
     fileSeek = searchFile(text, list_of_files)
+    #filterExtension = filterbyExtension(fileSeek)
     preprocessFile = preprocessFileNames(fileSeek)
-    #file_to_open = openFile(fileSeek)
     return fileSeek, preprocessFile
-    
+
 def fileData():
-    folder_path = "C:/Users/kanik/OneDrive/Desktop/Documents and Headshots"
-    filesFolders = os.listdir(folder_path)
+    folder_path = "C:/Users/kanik/OneDrive/Desktop"  
+    filesFolders = []
+    for root, dirs, files in os.walk(folder_path):
+        for file in files:
+            # Store either full path or relative path
+            full_path = os.path.join(root, file)
+            filesFolders.append(full_path)
     return filesFolders
+
      
 def searchFile(text, fileFolders):
     processing = process.extract(text, fileFolders, scorer=fuzz.ratio, limit=3, processor=utils.default_process)
@@ -21,6 +27,7 @@ def searchFile(text, fileFolders):
         user_file.append(x[0])
     return user_file
     
+
 def preprocessFileNames(user_file):
     processed_file_names = []
     for filename in user_file:
@@ -32,9 +39,9 @@ def preprocessFileNames(user_file):
         processed_file_names.append(filename)
     return processed_file_names
         
-def openFile(user_file):
+'''def openFile(user_file):
     for x in user_file:
-        os.startfile(x)
+        os.startfile(x)'''
     
     
 
