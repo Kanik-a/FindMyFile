@@ -1,10 +1,22 @@
 import os, re
 from rapidfuzz import process, fuzz, utils
+import mysql.connector
+from config import MYSQL_USER, MYSQL_PASSWORD
+
 def process_text(text, base_path="C:/Users/kanik/OneDrive/Desktop"):
     print(f"Processing: {text}")
     file_index = build_file_index(base_path)
     matched_paths = searchFile(text, file_index)
     return matched_paths
+
+
+def get_db_connection():
+    return mysql.connector.connect(
+        host = "localhost",
+        user = MYSQL_USER,
+        password = MYSQL_PASSWORD,
+        database = "findmyfil_db"
+    )
 
 
 
